@@ -2,6 +2,7 @@ package com.bousquet.noe.annexe1b;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.renderscript.ScriptGroup;
 import android.widget.TextView;
@@ -13,6 +14,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.Scanner;
 
 public class MainActivity extends AppCompatActivity {
     TextView questionA, questionB, questionC, questionD;
@@ -29,22 +32,12 @@ public class MainActivity extends AppCompatActivity {
 
         try {
             questionA.append(String.valueOf(trouverNombreLines()));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        try {
             questionB.append(String.valueOf(trouverNombreChars()));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        try {
             questionC.append(String.valueOf(trouverNombreCharC()));
+            ecrireNom();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
-
-
     }
 
     public int trouverNombreLines() throws Exception{
@@ -60,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
             nbLines++;
         }
 
-        br.close();
+        fermerFlux(br);
         return nbLines;
     }
 
@@ -74,13 +67,14 @@ public class MainActivity extends AppCompatActivity {
         InputStreamReader isr = new InputStreamReader(fis);
         BufferedReader br = new BufferedReader(isr);
 
-        do {
-            line = br.readLine();
+        line = br.readLine();
+        while(line != null) {
             nbChars += line.length();
+            line = br.readLine();
+        }
 
-        } while (br.readLine() != null);
 
-
+        fermerFlux(br);
         return nbChars;
     }
 
@@ -94,23 +88,60 @@ public class MainActivity extends AppCompatActivity {
         InputStreamReader isr = new InputStreamReader(fis);
         BufferedReader br = new BufferedReader(isr);
 
-        do {
-            line = br.readLine();
+        line = br.readLine();
+        while(line != null) {
             for(int i=0; i < line.length(); i++) {
                 if(line.charAt(i) == 'c') {
                     nbCharC++;
                 }
             }
+            line = br.readLine();
+        }
 
-        } while (br.readLine() != null);
 
-
+        fermerFlux(br);
         return nbCharC;
     }
 
-    public void ecrireNom() throws Exception {
-    //voir annexe1
 
+    public void ecrireNom() throws Exception{
+        String stringAjouter = "Noe Bousquet";
+        BufferedWriter bw = null;
 
+        FileOutputStream fos = openFileOutput("lorem.txt", Context.MODE_APPEND);
+        OutputStreamWriter osw = new OutputStreamWriter(fos);
+        bw = new BufferedWriter(osw);
+        bw.newLine();
+        bw.write(stringAjouter);
+
+        bw.close();
+    }
+
+    public int nbMotsScanner (){
+        int compteur = 0;
+        Scanner sc = null;
+        try {
+            FileInputStream fis = openFileInput("annexe1b.txt");
+
+            sc = new Scanner(fis);
+
+            while(sc.hasNext()) {
+                System.out.println (sc.next());
+                compteur++;
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            sc.close();
+            return compteur;
+        }
+    }
+
+    public void fermerFlux (BufferedReader br){
+        try {
+            br.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

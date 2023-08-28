@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        app:srcCompat="@drawable/logo" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="150dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/buttonAjouter"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:backgroundTint="#1082E4"
+            android:text="Ajouter" />
+
+        <Button
+            android:id="@+id/buttonAfficher"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:backgroundTint="#1082E4"
+            android:text="Afficher" />
+
+        <Button
+            android:id="@+id/buttonQuitter"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:backgroundTint="#1082E4"
+            android:text="Quitter" />
+    </LinearLayout>
+
+</LinearLayout>
