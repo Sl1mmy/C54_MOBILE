@@ -1,4 +1,4 @@
-package com.bousquet.noe.annexe1b;
+package com.example.myapplication;
 
 import org.junit.Test;
 
