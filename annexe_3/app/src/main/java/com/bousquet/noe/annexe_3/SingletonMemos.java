@@ -2,8 +2,10 @@ package com.bousquet.noe.annexe_3;
 
 import android.content.Context;
 
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
@@ -36,23 +38,32 @@ public class SingletonMemos {
         this.listeMemos = listeMemos;
     }
 
-    public void serialiserListe() {
+    public void serialiserListe() throws Exception {
         ObjectOutputStream oos = null;
+
         try {
             FileOutputStream fos = contexte.openFileOutput("fichier.ser", Context.MODE_PRIVATE);
-            oos = new ObjectOutputStream(fos); //autre sorte de Buffer pour les objets
+            oos = new ObjectOutputStream(fos); //autre sorte de Buffer pour les objets (pas pour characteres)
             oos.writeObject(listeMemos);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (oos != null)
-                    oos.close();
-            } catch(IOException e) {
-                e.printStackTrace();
-            }
+        }
+        finally {
+            if (oos != null)
+                oos.close();
         }
     }
 
+    public ArrayList<String> recupererListe() throws Exception { //UNSERIALIZE (inverse de serialiserListe)
+        ObjectInputStream ois = null;
+        ArrayList<String> temp = null;
 
+        try {
+            FileInputStream fis = contexte.openFileInput("fichier.ser");
+            ois = new ObjectInputStream(fis);
+            temp = (ArrayList<String>) ois.readObject();
+        } finally {
+            if (ois != null)
+                ois.close();
+        }
+        return temp;
+    }
 }

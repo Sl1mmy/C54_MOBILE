@@ -24,8 +24,8 @@ public class ListeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_liste);
         liste = findViewById(R.id.listText);
 
-        //ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, recupereMemo());
-        //liste.setAdapter(adapter);
+        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, SingletonMemos.getInstance(this).getListeMemos());
+        liste.setAdapter(adapter);
 
     }
 

@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
     Button ajouterButton, listeButton, quitterButton;
     Ecouteur ec;
@@ -24,6 +26,14 @@ public class MainActivity extends AppCompatActivity {
         ajouterButton.setOnClickListener(ec);
         listeButton.setOnClickListener(ec);
         quitterButton.setOnClickListener(ec);
+
+        // récupérer liste dans le fichier de sérialisation, s'il existe
+        try {
+            ArrayList<String> temp = SingletonMemos.getInstance(this).recupererListe();
+            SingletonMemos.getInstance(this).setListeMemos(temp);
+        } catch (Exception e) { //pas de fichier de sérialisation, entre autres
+            e.printStackTrace();
+        }
     }
 
     private class Ecouteur implements View.OnClickListener {

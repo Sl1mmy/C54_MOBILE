@@ -35,15 +35,18 @@ public class AjouterActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        SingletonMemos.getInstance(this).serialiserListe();
+        try {
+            SingletonMemos.getInstance(this).serialiserListe();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private class Ecouteur implements View.OnClickListener {
-
         @Override
         public void onClick(View view) {
 
-            //l'ajouter localement
+            //l'ajouter LOCALEMENT
             SingletonMemos.getInstance(AjouterActivity.this).ajouterMemo(texte.getText().toString());
             finish();
         }
