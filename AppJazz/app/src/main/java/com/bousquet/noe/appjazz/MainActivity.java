@@ -1,5 +1,8 @@
 package com.bousquet.noe.appjazz;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -25,7 +28,8 @@ public class MainActivity extends AppCompatActivity {
     private Chronometer timer;
     private SeekBar timeSeekBar;
 
-    private ImageView searchButton;
+    private ImageView searchButton; //pour boomerang
+    private androidx.activity.result.ActivityResultLauncher<Intent> launcher;
     private TextView linkText;
 
     private static SpotifyDiffuseur instance;
@@ -75,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
                 pauseTime = timer.getBase() - SystemClock.elapsedRealtime();
                 playButton.setImageResource(R.drawable.ic_play);
             } else {
-                instance.play();
+                instance.resume();
                 timer.setBase(SystemClock.elapsedRealtime() + pauseTime);
                 timer.start();
                 playButton.setImageResource(R.drawable.ic_pause);
@@ -117,9 +121,13 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        searchButton.setOnClickListener(v -> {
-            //TODO: launch Intent for result
+        launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            if(result.getResultCode() == RESULT_OK){
+                assert result.getData() != null;
+                instance.setCurrentPlaylist((String) result.getData().getSerializableExtra("link"));
+            }
         });
+        searchButton.setOnClickListener(v -> launcher.launch(new Intent(MainActivity.this, PlaylistActivity.class)));
 
         timer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
             @Override

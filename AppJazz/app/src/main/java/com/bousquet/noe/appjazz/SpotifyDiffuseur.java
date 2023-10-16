@@ -87,10 +87,15 @@ public class SpotifyDiffuseur {
     }
 
 
+    public void play() {
+        playerApi.play(currentPlaylist);
+        isPlaying = true;
+    }
 
     //ACTIONS
-    public void play() {
-        playerApi.play(currentPlaylist); //TODO resume song instead of playlist
+    public void resume() {
+        //playerApi.play(currentPlaylist); //TODO resume song instead of playlist
+        playerApi.resume();
         isPlaying = true;
     }
 
@@ -181,5 +186,11 @@ public class SpotifyDiffuseur {
 
     public long getProgress() {
         return progress;
+    }
+
+    public void setCurrentPlaylist(String currentPlaylist) {
+        this.currentPlaylist = currentPlaylist;
+        playerApi.play(currentPlaylist);
+        this.update();
     }
 }

@@ -150,7 +150,7 @@
         android:gravity="center"
         android:text="The Jazz Resource"
         android:textColor="@color/secondary_text"
-        android:textSize="16dp"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@id/menuButton"
         app:layout_constraintEnd_toStartOf="@id/searchButton"
         app:layout_constraintStart_toEndOf="@id/menuButton"
