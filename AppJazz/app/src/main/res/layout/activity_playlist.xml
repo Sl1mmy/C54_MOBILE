@@ -22,6 +22,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="10"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="10sp"
         android:textAlignment="center"/>
 
 </LinearLayout>

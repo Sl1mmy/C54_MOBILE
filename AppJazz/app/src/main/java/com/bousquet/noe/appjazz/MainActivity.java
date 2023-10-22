@@ -125,6 +125,7 @@ public class MainActivity extends AppCompatActivity {
             if(result.getResultCode() == RESULT_OK){
                 assert result.getData() != null;
                 instance.setCurrentPlaylist((String) result.getData().getSerializableExtra("link"));
+                displayInfos(); //problem: doesnt work if first thing done when app launch, idk
             }
         });
         searchButton.setOnClickListener(v -> launcher.launch(new Intent(MainActivity.this, PlaylistActivity.class)));

@@ -47,7 +47,7 @@ public class PlaylistActivity extends AppCompatActivity {
                 "Modern Jazz is good too",
                 "12 songs", "46m6s", "spotify:album:69TYdq2UOhXr1OpIN9kdwJ");
 
-        playlist6 = new Playlist(R.drawable.playlist6, "Ella and Louis Again", "Ella Fitzgerald, Louis Armstrong",
+        playlist6 = new Playlist(R.drawable.playlist6, "Ella and Louis Again", "Ella Fitzgerald",
                 "The combination of these two voices is magic",
                 "19 songs", "1h29", "spotify:album:4zWqQOob980K9drUrUGM8M");
 
