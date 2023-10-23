@@ -1,0 +1,139 @@
+accès à des fichiers texte sur le téléphone 			: Annexe 1/1b
+faire de la sérialisation d'objets				: Annexe 3/3b
+api Spotify							: Tp1
+listes complexes						: Tp1
+expressions lambda						: Tp1
+pattern Builder							: txt	
+prendre une photo et l'afficher					: annexe 7 (here)
+"démarrer une activité pour obtenir un résultat" / boomerang	: Tp1 
+Intents explicites						: url(implicit)/searchButton(explicit) dans Tp1
+
+
+
+boutonPhoto.setOnClickListener(source -> {
+   Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+   launcher.launch(i) //launcher dans tp1
+});
+launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+   Bundle bundle = result.getData().getExtras();
+   Bitmap photo = (Bitmap) bundle.get("data");
+   image.setImageBitmap(photo);
+
+
+
+Pattern Builder:
+
+*The Builder pattern simplifies object creation in a very clean and readable way. It’s very helpful when we have some model classes with many parameters. We can make some of them optional, or required, and we don’t force the user to use a specific order (as found in the constructor). By using this Builder pattern, the result is an elegant chain of methods.
+*The most common use can be found in the AlertDialog.Builder() class:
+
+new AlertDialog.Builder(this)
+   .setTitle("Design Patterns")
+   .setMessage("Builder is awesome")
+   .create();
+
+*How can we create the Builder class for our own usage?
+
+*Builder in practice:
+*Let’s assume we have some model class for the user:
+
+public class User {
+   private String firstName;
+   private String lastName;
+   private int age;
+}
+
+*So, instead of creating objects of this class using constructors, we want to create them using a Builder pattern like this:
+
+new User.Builder()
+   .setFirstName("Leonardo")
+   .setLastName("da Vinci")
+   .setAge(67)
+   .create();
+
+
+*How can we do this? First of all, we need to create a static Builder class inside the User class, which will have the methods to build our object. The key to having chaining methods is ensuring that the builder methods return a Builder class. Look at the example:
+
+static class Builder {
+   private String firstName;
+   private String lastName;
+   private int age;
+
+   public Builder setFirstName(final String firstName) {
+      this.firstName = firstName;
+      return this;
+   }
+
+   public Builder setLastName(final String lastName) {
+      this.lastName = lastName;
+      return this;
+   }
+
+   public Builder setAge(final int age) {
+      this.age = age;
+      return this;
+   }
+
+   public User create() {
+      return new User(this);
+   }
+}
+
+
+static class Builder {
+   private String firstName;
+   private String lastName;
+   private int age;
+ 
+   public Builder setFirstName(final String firstName) {
+      this.firstName = firstName;
+      return this;
+   }
+ 
+   public Builder setLastName(final String lastName) {
+      this.lastName = lastName;
+      return this;
+   }
+ 
+   public Builder setAge(final int age) {
+      this.age = age;
+      return this;
+   }
+ 
+   public User create() {
+      return new User(this);
+   }
+}
+
+*For every parameter, we have a setter – 
+*the difference is that those methods return a Builder type. 
+*At the end, we have a method which uses a constructor from the User class and returns a User type – 
+*this is the part where our mess is kept hidden.
+
+public class User {
+   private String firstName;
+   private String lastName;
+   private int age;
+ 
+   private User(final Builder builder) {
+        firstName = builder.firstName;
+        lastName = builder.lastName;
+        age = builder.age;
+   }
+}
+
+
+*The important thing here is that the User constructor is private, 
+*so it can’t be accessed from the other class and we must use Builder to create a new object.
+
+*Of course, we can make some of the parameters required (as for now, all are optional) 
+*by modifying our create() method and throwing some exceptions, e.g.:
+
+public User create() {
+   User user = new User(firstName, lastName, age);
+   if (user.firstName.isEmpty()) {
+      throw new IllegalStateException("First name can not be empty!");
+   }
+   return user;
+}
+
+*That’s it. Through this, we have created our User.Builder() class!
